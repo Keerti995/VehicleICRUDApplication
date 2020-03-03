@@ -44,7 +44,7 @@ public class VehicleTestService {
         toDoList.add(new Vehicle(2, 2019, "450-GT","Lamborgini"));
         when(vehicleInfoRepository.findAll()).thenReturn(toDoList);
 
-        List<JsonNode> result = vehicleServiceImplementation.GetAllVehiclesInfo();
+        List<Vehicle> result = vehicleServiceImplementation.GetAllVehiclesInfo();
         assertEquals(2,result.size());
     }
     @Test
@@ -52,11 +52,11 @@ public class VehicleTestService {
         Vehicle vehicle = new Vehicle(1, 2019, "A01","Audi");
         when(vehicleInfoRepository.findById(1)).thenReturn(Optional.of(vehicle));
 
-        JsonNode result = vehicleServiceImplementation.VehicleInfoById(1);
-        assertEquals(new IntNode(1),result.get("id"));
-        assertEquals(new IntNode(2019),result.get("year"));
-        assertEquals("A01",result.get("make").asText());
-        assertEquals("Audi",result.get("model").asText());
+        Vehicle result = vehicleServiceImplementation.VehicleInfoById(1);
+        assertEquals(new IntNode(1),result.getId());
+        assertEquals(new IntNode(2019),result.getYear());
+        assertEquals("A01",result.getMake());
+        assertEquals("Audi",result.getModel());
     }
     @Test
     public void testCreateVehicleDS() throws VehiclesInfoNotFoundException {

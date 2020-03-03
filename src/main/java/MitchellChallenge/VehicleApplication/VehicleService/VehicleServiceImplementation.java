@@ -32,7 +32,7 @@ public class VehicleServiceImplementation {
     public List<Vehicle> GetAllVehiclesInfo() throws IOException, VehiclesInfoNotFoundException {
         List<Vehicle> allVehicleInfo =(List<Vehicle>) vehicleInfoRepository.findAll();  // fetches all vehicle info from Data Reposiotory
         if(allVehicleInfo == null)       //if the fetched information from Data Repository is empty then return an exception that there is no vehicle info in repository
-            throw new VehiclesInfoNotFoundException("No Vehicles Information Found");
+            throw new VehiclesInfoNotFoundException("No Vehicle Information Found");
         return allVehicleInfo;
     }
 
