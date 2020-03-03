@@ -38,7 +38,6 @@ public class VehicleCRUDController {
    @ResponseBody
     public ResponseEntity<List<Vehicle>> getAllVehicles(){
         List<Vehicle> jsonString ;
-        System.out.println("in controller");
         try {
             jsonString = vehicleServiceImplementation.GetAllVehiclesInfo();
         }
