@@ -13,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * VehicleServiceImplementation class implements all the CRUD Operations described in VehicleService Interface
@@ -63,8 +62,12 @@ public class VehicleServiceImplementation implements VehicleService {
      */
     public Vehicle createNewVehicleDS(Vehicle vehicle) throws VehiclesInfoNotFoundException {
         Optional<Vehicle> findByIdResult = vehicleInfoRepository.findById(vehicle.getId());
-            if(!findByIdResult.isPresent())
-                return vehicleInfoRepository.save(vehicle);
+            if(!findByIdResult.isPresent()){
+                if(vehicle.getMake() != null && vehicle.getMake() != "" && vehicle.getModel() != "" && vehicle.getModel() != null && vehicle.getYear()> 1950 && vehicle.getYear()< 2050)
+                        return vehicleInfoRepository.save(vehicle);
+                else
+                    throw new VehiclesInfoNotFoundException("Please check: Make & Model of a Vehicle should not be empty and the year should range between 1950 and 2050");
+            }
             else
                 throw new VehiclesInfoNotFoundException("Please give new Id to create/insert it");
     }
@@ -80,10 +83,13 @@ public class VehicleServiceImplementation implements VehicleService {
         if(!findByIdResult.isPresent()){
             throw new VehiclesInfoNotFoundException("Vehicle Info not found to update");
         }else{
-            findByIdResult.get().setYear(vehicleUpdInfo.getYear());
-            findByIdResult.get().setMake(vehicleUpdInfo.getMake());
-            findByIdResult.get().setModel(vehicleUpdInfo.getModel());
-            return vehicleInfoRepository.save(findByIdResult.get());
+            if(vehicleUpdInfo.getMake() != null && vehicleUpdInfo.getMake() != "" && vehicleUpdInfo.getModel() != ""  && vehicleUpdInfo.getModel() != null && vehicleUpdInfo.getYear()> 1950 && vehicleUpdInfo.getYear()< 2050) {
+                findByIdResult.get().setYear(vehicleUpdInfo.getYear());
+                findByIdResult.get().setMake(vehicleUpdInfo.getMake());
+                findByIdResult.get().setModel(vehicleUpdInfo.getModel());
+                return vehicleInfoRepository.save(findByIdResult.get());
+            }else
+                throw new VehiclesInfoNotFoundException("Please check: Make & Model of a Vehicle should not be empty and the year should range between 1950 and 2050");
         }
     }
 

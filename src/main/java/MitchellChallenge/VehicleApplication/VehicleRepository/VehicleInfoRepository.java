@@ -10,6 +10,8 @@ import MitchellChallenge.VehicleApplication.VehicleModel.Vehicle;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface VehicleInfoRepository extends CrudRepository<Vehicle,Integer> {
 

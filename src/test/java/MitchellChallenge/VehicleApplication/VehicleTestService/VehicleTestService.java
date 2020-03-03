@@ -1,3 +1,9 @@
+/**
+ * MitchellChallenge.VehicleApplication.VehicleService package inscribes a class which implements CRUD operations from VehicleService Interface
+ * @author Keerti Keerti
+ * @version 1.0
+ * @since 25-Feb-2020
+ */
 package MitchellChallenge.VehicleApplication.VehicleTestService;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
@@ -53,8 +59,8 @@ public class VehicleTestService {
         when(vehicleInfoRepository.findById(1)).thenReturn(Optional.of(vehicle));
 
         Vehicle result = vehicleServiceImplementation.VehicleInfoById(1);
-        assertEquals(new IntNode(1),result.getId());
-        assertEquals(new IntNode(2019),result.getYear());
+        assertEquals(1,result.getId());
+        assertEquals(2019,result.getYear());
         assertEquals("A01",result.getMake());
         assertEquals("Audi",result.getModel());
     }
@@ -82,7 +88,6 @@ public class VehicleTestService {
     @Test
     public void testDeleteVehicleInfo() throws Exception {
         Vehicle vehicle = new Vehicle(5,2020,"A1","Audi");
-        //Vehicle vehicle2 = new Vehicle(5,2020,"A1","Audi");
         when(vehicleInfoRepository.findById(5)).thenReturn(Optional.of(vehicle));
         vehicleServiceImplementation.deleteVehicleInfoService(5);
         verify(vehicleInfoRepository, times(1)).deleteById(5);

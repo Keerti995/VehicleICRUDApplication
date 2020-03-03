@@ -1,3 +1,9 @@
+/**
+ * MitchellChallenge.VehicleApplication.VehicleTestController package inscribes a class VehicleTestController which tests the VehicleCRUDController class
+ * @author Keerti Keerti
+ * @version 1.0
+ * @since 25-Feb-2020
+ */
 package MitchellChallenge.VehicleApplication.VehicleTestController;
 
 import MitchellChallenge.VehicleApplication.VehicleApplication;
@@ -20,6 +26,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+/**
+ * VehicleTestController class tests the methods of VehicleCRUDController class
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = VehicleApplication.class)
 @SpringBootTest
@@ -31,6 +40,9 @@ public class VehicleTestController {
         @Autowired
         private WebApplicationContext wac;
 
+        /**
+         *
+         */
         @Before
         public void setup() {
             this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
@@ -42,6 +54,7 @@ public class VehicleTestController {
                 mockMvc.perform(MockMvcRequestBuilders.get("/vehicles").accept(MediaType.APPLICATION_JSON))
                         .andExpect(jsonPath("$", hasSize(3))).andDo(print());
         }
+
         @Test
         public void verifyGetVehicleById() throws Exception{
                 mockMvc.perform(MockMvcRequestBuilders.get("/vehicles/1").accept(MediaType.APPLICATION_JSON))
@@ -68,6 +81,15 @@ public class VehicleTestController {
                         .content("{ \"id\": \"9\", \"year\" : \"2020\", \"make\" : \"A1\", \"model\" : \"Audi\" }")
                         .accept(MediaType.APPLICATION_JSON))
                         .andExpect( jsonPath("$").value("New Vehicle Data Successfully inserted"))
+                        .andDo(print());
+        }
+        @Test
+        public void verifyInvalidCreateNewVehicleDS2() throws Exception {
+                mockMvc.perform(MockMvcRequestBuilders.post("/createVehicle")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"id\": \"999\", \"year\" : \"2020\", \"make\" : \"\", \"model\" : \"Audi\" }")
+                        .accept(MediaType.APPLICATION_JSON))
+                        .andExpect( jsonPath("$").value("Please check: Make & Model of a Vehicle should not be empty and the year should range between 1950 and 2050"))
                         .andDo(print());
         }
         @Test
@@ -98,6 +120,15 @@ public class VehicleTestController {
                         .content("{ \"id\": \"1\", \"year\" : \"2020\", \"make\" : \"A1\", \"model\" : \"Audi\" }")
                         .accept(MediaType.APPLICATION_JSON))
                         .andExpect(jsonPath("$").value("Updated Info Successfully"))
+                        .andDo(print());
+        }
+        @Test
+        public void verifyInvalidUpdateVehicleInfo2() throws Exception {
+                mockMvc.perform(MockMvcRequestBuilders.put("/updateVehicleInfo")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"id\": \"1\", \"year\" : \"2070\", \"make\" : \"A1\", \"model\" : \"Audi\" }")
+                        .accept(MediaType.APPLICATION_JSON))
+                        .andExpect(jsonPath("$").value("Please check: Make & Model of a Vehicle should not be empty and the year should range between 1950 and 2050"))
                         .andDo(print());
         }
 

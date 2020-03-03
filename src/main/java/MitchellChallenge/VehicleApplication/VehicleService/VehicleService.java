@@ -10,6 +10,7 @@ import MitchellChallenge.VehicleApplication.VehicleException.VehiclesInfoNotFoun
 import MitchellChallenge.VehicleApplication.VehicleModel.Vehicle;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * VehicleService Interface lists out the CRUD methods, which needs to be implemented in the services for Vehicle Application
