@@ -1,26 +1,25 @@
 /**
  * @author Keerti Keerti
  * @version 1.0
- * @since 02-March-2020
+ * @since 25-Feb-2020
  */
 package MitchellChallenge.VehicleApplication.VehicleController;
 
 import MitchellChallenge.VehicleApplication.VehicleException.VehiclesInfoNotFoundException;
 import MitchellChallenge.VehicleApplication.VehicleModel.Vehicle;
 import MitchellChallenge.VehicleApplication.VehicleService.VehicleServiceImplementation;
-import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * VehicleCRUDController
+ */
 @RestController
 public class VehicleCRUDController {
 
