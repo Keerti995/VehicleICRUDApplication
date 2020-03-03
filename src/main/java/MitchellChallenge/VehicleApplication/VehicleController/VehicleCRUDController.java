@@ -1,3 +1,8 @@
+/**
+ * @author Keerti Keerti
+ * @version 1.0
+ * @since 02-March-2020
+ */
 package MitchellChallenge.VehicleApplication.VehicleController;
 
 import MitchellChallenge.VehicleApplication.VehicleException.VehiclesInfoNotFoundException;
@@ -24,8 +29,8 @@ public class VehicleCRUDController {
 
    @GetMapping(value="/vehicles", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<List<JsonNode>> getAllVehicles(){
-        List<JsonNode> jsonString ;
+    public ResponseEntity<List<Vehicle>> getAllVehicles(){
+        List<Vehicle> jsonString ;
         System.out.println("in controller");
         try {
             jsonString = vehicleServiceImplementation.GetAllVehiclesInfo();
@@ -34,13 +39,13 @@ public class VehicleCRUDController {
         {
             return  new ResponseEntity(e.getMessage(), HttpStatus.FORBIDDEN);
         }
-      return new ResponseEntity<List<JsonNode>>(jsonString,HttpStatus.ACCEPTED);
+      return new ResponseEntity<List<Vehicle>>(jsonString,HttpStatus.ACCEPTED);
     }
 
     @GetMapping(value="/vehicles/{Id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity getVehiclesById(@PathVariable("Id") int Id){
-        JsonNode jsonString;
+        Vehicle jsonString;
         try {
             jsonString = vehicleServiceImplementation.VehicleInfoById(Id);
         }
@@ -48,7 +53,7 @@ public class VehicleCRUDController {
         {
             return  new ResponseEntity(e.getMessage(), HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<JsonNode>(jsonString,HttpStatus.ACCEPTED);
+        return new ResponseEntity<Vehicle>(jsonString,HttpStatus.ACCEPTED);
     }
     @PostMapping(value="/createVehicle", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

@@ -1,16 +1,19 @@
+/**
+ * @author Keerti Keerti
+ * @version 1.0
+ * @since 02-March-2020
+ */
 package MitchellChallenge.VehicleApplication.VehicleService;
 
 import MitchellChallenge.VehicleApplication.VehicleException.VehiclesInfoNotFoundException;
 import MitchellChallenge.VehicleApplication.VehicleModel.Vehicle;
 import MitchellChallenge.VehicleApplication.VehicleRepository.VehicleInfoRepository;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,35 +29,33 @@ public class VehicleServiceImplementation {
      * @throws IOException
      * @throws VehiclesInfoNotFoundException
      */
-    public List<JsonNode> GetAllVehiclesInfo() throws IOException, VehiclesInfoNotFoundException {
+    public List<Vehicle> GetAllVehiclesInfo() throws IOException, VehiclesInfoNotFoundException {
         List<Vehicle> allVehicleInfo =(List<Vehicle>) vehicleInfoRepository.findAll();  // fetches all vehicle info from Data Reposiotory
-        Vehicle vehicleList=new Vehicle();
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<JsonNode> jsonList=new ArrayList<JsonNode>();
-        System.out.println("Json list"+jsonList+" size: "+allVehicleInfo.size());
-        for(Vehicle info: allVehicleInfo){
-            vehicleList.setId(info.getId());
-            vehicleList.setYear(info.getYear());
-            vehicleList.setMake(info.getMake());
-            vehicleList.setModel(info.getModel());
-            String vehiclesListJsonString = objectMapper.writeValueAsString(vehicleList);
-            JsonNode jsonNode = objectMapper.readTree(vehiclesListJsonString);
-            jsonList.add(jsonNode);
-        }
-        if(jsonList==null) throw new VehiclesInfoNotFoundException("No Vehicles Information Found");
+        if(allVehicleInfo == null)       //if the fetched information from Data Repository is empty then return an exception that there is no vehicle info in repository
+            throw new VehiclesInfoNotFoundException("No Vehicles Information Found");
+        return allVehicleInfo;
+    }
 
-        return jsonList;
+    /**
+     * VehicleInfoById method takes the Id as input and fetches that IDs vehicle info from Data Repository and send it in the form of JSONNode
+     * @param Id
+     * @return Vehicle Info of requested Id in JsonNode
+     * @throws IOException
+     * @throws VehiclesInfoNotFoundException
+     */
+    public Vehicle VehicleInfoById(Integer Id) throws IOException, VehiclesInfoNotFoundException {
+        Optional<Vehicle> findByIdResult = vehicleInfoRepository.findById(Id);     //Fetch the vehicle info of the requested Id from Database/Repo
+        if(!findByIdResult.isPresent()) // If fetched info is empty then return an exception
+            throw new VehiclesInfoNotFoundException("No Vehicle Information Found for the given ID");
+        return findByIdResult.get();
     }
-    public JsonNode VehicleInfoById(Integer Id) throws IOException, VehiclesInfoNotFoundException {
-        Optional<Vehicle>  findByIdResult = vehicleInfoRepository.findById(Id);
-        if(!findByIdResult.isPresent())
-         throw new VehiclesInfoNotFoundException("No Vehicle Information Found for the given ID");
-        ObjectMapper objectMapper = new ObjectMapper();
-        String vehiclesInfoJsonString = objectMapper.writeValueAsString(findByIdResult.get());
-        JsonNode jsonNode = objectMapper.readTree(vehiclesInfoJsonString);
-        if(jsonNode == null) throw new VehiclesInfoNotFoundException("No Vehicle Information Found for the given ID");
-        return jsonNode;
-    }
+
+    /**
+     * createNewVehicleDS takes the vehicle object to create, checks whether the new Id passed already exists in the database, if there, return exception else inseert it into database
+     * @param vehicle
+     * @return Vehicle object created is returned
+     * @throws VehiclesInfoNotFoundException
+     */
     public Vehicle createNewVehicleDS(Vehicle vehicle) throws VehiclesInfoNotFoundException {
         Optional<Vehicle> findByIdResult = vehicleInfoRepository.findById(vehicle.getId());
             if(!findByIdResult.isPresent())
@@ -62,6 +63,13 @@ public class VehicleServiceImplementation {
             else
                 throw new VehiclesInfoNotFoundException("Please give new Id to create/insert it");
     }
+
+    /**
+     * updateVehicleInfoService method takes vehicle object which needs to be updated, checks whether the passed Id is already in DB, if not then throws exception else updates it.
+     * @param vehicleUpdInfo
+     * @return updated vehicle object
+     * @throws VehiclesInfoNotFoundException
+     */
     public Vehicle updateVehicleInfoService(@Valid Vehicle vehicleUpdInfo) throws VehiclesInfoNotFoundException{
         Optional<Vehicle> findByIdResult = vehicleInfoRepository.findById(vehicleUpdInfo.getId());
         if(!findByIdResult.isPresent()){
@@ -73,6 +81,12 @@ public class VehicleServiceImplementation {
             return vehicleInfoRepository.save(findByIdResult.get());
         }
     }
+
+    /**
+     * deleteVehicleInfoService method takes Id as the input, checks if it is in the DB, if so then deletes it else throws an exception
+     * @param Id
+     * @throws VehiclesInfoNotFoundException
+     */
     public void deleteVehicleInfoService(Integer Id) throws VehiclesInfoNotFoundException{
         Optional<Vehicle> findByIdResult = vehicleInfoRepository.findById(Id);
 
