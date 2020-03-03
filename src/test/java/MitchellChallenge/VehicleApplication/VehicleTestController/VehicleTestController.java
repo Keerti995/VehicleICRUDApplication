@@ -41,7 +41,7 @@ public class VehicleTestController {
         private WebApplicationContext wac;
 
         /**
-         *
+         * Method setup initializes Mockito.
          */
         @Before
         public void setup() {
@@ -49,12 +49,20 @@ public class VehicleTestController {
             MockitoAnnotations.initMocks(this);
         }
 
+        /**
+         * verifyGetAllVehicles checks when the get URI specified is called, the number of entities returned is 3 or not, since initially, total entities are 3 in DB
+         * @throws Exception
+         */
         @Test
         public void verifyGetAllVehicles() throws Exception{
                 mockMvc.perform(MockMvcRequestBuilders.get("/vehicles").accept(MediaType.APPLICATION_JSON))
                         .andExpect(jsonPath("$", hasSize(3))).andDo(print());
         }
 
+        /**
+         * verifyGetVehicleById method checks whether vehicle application controller is returning the vehicle object with the specified ID(1)
+         * @throws Exception
+         */
         @Test
         public void verifyGetVehicleById() throws Exception{
                 mockMvc.perform(MockMvcRequestBuilders.get("/vehicles/1").accept(MediaType.APPLICATION_JSON))
@@ -68,12 +76,22 @@ public class VehicleTestController {
                         .andExpect( jsonPath("$.model").value("350-GT"))
                         .andDo(print());
         }
+
+        /**
+         * verifyInvalidGetVehicleById method checks whether the vehicle application controller catches the exception when invalid ID is passed
+         * @throws Exception
+         */
         @Test
         public void verifyInvalidGetVehicleById() throws Exception{
                 mockMvc.perform(MockMvcRequestBuilders.get("/vehicles/111").accept(MediaType.APPLICATION_JSON))
                         .andExpect(jsonPath("$").value("No Vehicle Information Found for the given ID"))
                         .andDo(print());
         }
+
+        /**
+         * verifyCreateNewVehicleDS method checks whether the vehicle application controller is creating the passed vehicle object successfully.
+         * @throws Exception
+         */
         @Test
         public void verifyCreateNewVehicleDS() throws Exception {
                  mockMvc.perform(MockMvcRequestBuilders.post("/createVehicle")
@@ -83,6 +101,11 @@ public class VehicleTestController {
                         .andExpect( jsonPath("$").value("New Vehicle Data Successfully inserted"))
                         .andDo(print());
         }
+
+        /**
+         * verifyInvalidCreateNewVehicleDS2 method checks whether vehicle application controller catches the exception when the make of the vehicle object passed is empty
+         * @throws Exception
+         */
         @Test
         public void verifyInvalidCreateNewVehicleDS2() throws Exception {
                 mockMvc.perform(MockMvcRequestBuilders.post("/createVehicle")
@@ -92,6 +115,11 @@ public class VehicleTestController {
                         .andExpect( jsonPath("$").value("Please check: Make & Model of a Vehicle should not be empty and the year should range between 1950 and 2050"))
                         .andDo(print());
         }
+
+        /**
+         * verifyInvalidCreateNewVehicleDS method checks whether the vehicle application controller catches the execption when we are trying to create vehicle object with already existing Id
+         * @throws Exception
+         */
         @Test
         public void verifyInvalidCreateNewVehicleDS() throws Exception {
                 mockMvc.perform(MockMvcRequestBuilders.post("/createVehicle")
@@ -101,18 +129,33 @@ public class VehicleTestController {
                         .andExpect( jsonPath("$").value("Please give new Id to create/insert it"))
                         .andDo(print());
         }
+
+        /**
+         * verifyDeleteVehicleInfo method checks whether the vehicle application controller is returning valid message after deleting successfully.
+         * @throws Exception
+         */
         @Test
         public void verifyDeleteVehicleInfo() throws Exception {
                 mockMvc.perform(MockMvcRequestBuilders.delete("/deleteVehicleInfo/3").accept(MediaType.APPLICATION_JSON))
                         .andExpect(jsonPath("$").value("Deleted Info Successfully"))
                         .andDo(print());
         }
+
+        /**
+         * verifyInvalidDeleteVehicleInfo method checks whether the vehicle application controller is returning valid message after it was unable to delete it.
+         * @throws Exception
+         */
         @Test
         public void verifyInvalidDeleteVehicleInfo() throws Exception {
                 mockMvc.perform(MockMvcRequestBuilders.delete("/deleteVehicleInfo/99").accept(MediaType.APPLICATION_JSON))
                         .andExpect( jsonPath("$").value("Vehicle Info not found to delete"))
                         .andDo(print());
         }
+
+        /**
+         * verifyUpdateVehicleInfo method checks whether the vehicle application controller is able to update the passed vehicle object upon sending valid vehicle object
+         * @throws Exception
+         */
         @Test
         public void verifyUpdateVehicleInfo() throws Exception {
                 mockMvc.perform(MockMvcRequestBuilders.put("/updateVehicleInfo")
@@ -122,6 +165,10 @@ public class VehicleTestController {
                         .andExpect(jsonPath("$").value("Updated Info Successfully"))
                         .andDo(print());
         }
+        /**
+         * verifyInvalidUpdateVehicleInfo2 method checks whether the vehicle application controller is able to return valid message when its unabel to update the object upon encountering problem-1950<year<2050
+         * @throws Exception
+         */
         @Test
         public void verifyInvalidUpdateVehicleInfo2() throws Exception {
                 mockMvc.perform(MockMvcRequestBuilders.put("/updateVehicleInfo")
@@ -132,7 +179,10 @@ public class VehicleTestController {
                         .andDo(print());
         }
 
-        //Invalid Tests
+        /**
+         * verifyInvalidUpdateVehicleInfo method checks whether the vehicle application controller is able to return valid message when its unabel to update the object upon encountering some problem - Id is not existing to update
+         * @throws Exception
+         */
         @Test
         public void verifyInvalidUpdateVehicleInfo() throws Exception {
                 mockMvc.perform(MockMvcRequestBuilders.put("/updateVehicleInfo")

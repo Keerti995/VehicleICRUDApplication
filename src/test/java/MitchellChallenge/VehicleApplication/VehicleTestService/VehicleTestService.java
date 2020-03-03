@@ -19,8 +19,6 @@ import MitchellChallenge.VehicleApplication.VehicleException.VehiclesInfoNotFoun
 import MitchellChallenge.VehicleApplication.VehicleModel.Vehicle;
 import MitchellChallenge.VehicleApplication.VehicleRepository.VehicleInfoRepository;
 import MitchellChallenge.VehicleApplication.VehicleService.VehicleServiceImplementation;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.IntNode;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,10 +37,20 @@ public class VehicleTestService {
     @InjectMocks
     private VehicleServiceImplementation vehicleServiceImplementation;
 
+    /**
+     * initializes the mockito
+     */
     @Before
     public void setup(){
         MockitoAnnotations.initMocks(this);
     }
+
+    /**
+     * testGetAllVehicles method checks whether the vehicle application service method is returning all the vehicles upon calling that method.
+     * Values returned are from Mockito instead of hitting the Database
+     * @throws IOException
+     * @throws VehiclesInfoNotFoundException
+     */
     @Test
     public void testGetAllVehicles() throws IOException, VehiclesInfoNotFoundException {
         List<Vehicle> toDoList = new ArrayList<Vehicle>();
@@ -53,6 +61,13 @@ public class VehicleTestService {
         List<Vehicle> result = vehicleServiceImplementation.GetAllVehiclesInfo();
         assertEquals(2,result.size());
     }
+
+    /**
+     * testGetVehicleById method checks whether the vehicle application service method is returning the valid vehicle object upon calling that method.
+     * Values returned are from Mockito instead of hitting the Database
+     * @throws IOException
+     * @throws VehiclesInfoNotFoundException
+     */
     @Test
     public void testGetVehicleById() throws IOException, VehiclesInfoNotFoundException {
         Vehicle vehicle = new Vehicle(1, 2019, "A01","Audi");
@@ -64,6 +79,13 @@ public class VehicleTestService {
         assertEquals("A01",result.getMake());
         assertEquals("Audi",result.getModel());
     }
+
+    /**
+     * testCreateVehicleDS method checks whether the vehicle application service method is returning the valid vehicle object upon creating that object in Database.
+     * Values returned are from Mockito instead of hitting the Database
+     * @throws IOException
+     * @throws VehiclesInfoNotFoundException
+     */
     @Test
     public void testCreateVehicleDS() throws VehiclesInfoNotFoundException {
         Vehicle vehicle = new Vehicle(5,2020,"A1","Audi");
@@ -74,6 +96,13 @@ public class VehicleTestService {
         assertEquals("A1",result.getMake());
         assertEquals("Audi",result.getModel());
     }
+
+    /**
+     * testUpdateVehicleInfo method checks whether the vehicle application service method is updating the valid vehicle object upon calling that method.
+     * Values returned are from Mockito instead of hitting the Database
+     * @throws IOException
+     * @throws VehiclesInfoNotFoundException
+     */
     @Test
     public void testUpdateVehicleInfo() throws VehiclesInfoNotFoundException {
         Vehicle vehicle = new Vehicle(2,2020,"A2","Audi");
@@ -85,6 +114,13 @@ public class VehicleTestService {
         assertEquals("A2",result.getMake());
         assertEquals("Audi",result.getModel());
     }
+
+    /**
+     * testDeleteVehicleInfo method checks whether the vehicle application service method is able to identify the correct vehicle object that needs to be deleted and hits the DB once
+     * Values returned are from Mockito instead of hitting the Database
+     * @throws IOException
+     * @throws VehiclesInfoNotFoundException
+     */
     @Test
     public void testDeleteVehicleInfo() throws Exception {
         Vehicle vehicle = new Vehicle(5,2020,"A1","Audi");
