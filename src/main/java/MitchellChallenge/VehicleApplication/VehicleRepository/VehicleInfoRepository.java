@@ -1,4 +1,5 @@
 /**
+ * MitchellChallenge.VehicleApplication.VehicleRepository inscibes an interface VehicleInfoRepository which extends CrudRepository<Vehicle,Integer> inturn containing all the functionality to interact with the database
  * @author Keerti Keerti
  * @version 1.0
  * @since 25-Feb-2020

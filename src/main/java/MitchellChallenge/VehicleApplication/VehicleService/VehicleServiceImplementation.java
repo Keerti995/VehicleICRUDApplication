@@ -1,4 +1,5 @@
 /**
+ * MitchellChallenge.VehicleApplication.VehicleService package inscribes a class which implements CRUD operations from VehicleService Interface
  * @author Keerti Keerti
  * @version 1.0
  * @since 25-Feb-2020
@@ -8,18 +9,22 @@ package MitchellChallenge.VehicleApplication.VehicleService;
 import MitchellChallenge.VehicleApplication.VehicleException.VehiclesInfoNotFoundException;
 import MitchellChallenge.VehicleApplication.VehicleModel.Vehicle;
 import MitchellChallenge.VehicleApplication.VehicleRepository.VehicleInfoRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * VehicleServiceImplementation class implements all the CRUD Operations described in VehicleService Interface
+ */
 @Service
-public class VehicleServiceImplementation {
+public class VehicleServiceImplementation implements VehicleService {
 
+    /**
+     * Instantiating VehicleInfoRepository for usage of functions to interact with Database.
+     */
     @Autowired
     private VehicleInfoRepository vehicleInfoRepository;
 

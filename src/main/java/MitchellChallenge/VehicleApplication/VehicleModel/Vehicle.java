@@ -1,4 +1,5 @@
 /**
+ * MitchellChallenge.VehicleApplication.VehicleModel package inscribes a class Vehicle which describes the Properties, accessors and mutator methods of the Vehicle Object
  * @author Keerti Keerti
  * @version 1.0
  * @since 25-Feb-2020
@@ -9,10 +10,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**
+ * class Vehicle which describes the Properties, accessors and mutator methods of the Vehicle Object
+ */
 @Entity
 public class Vehicle {
     @Id
-    //@Column(name="Id")
     public int id;
     @Column(name="year")
     public int year;
@@ -22,10 +25,7 @@ public class Vehicle {
     public String model;
 
     public Vehicle(){
-        this.id = 0;
-        this.year = 0;
-        this.make = null;
-        this.model = null;
+        super();
     }
     public Vehicle(int i, int i1, String s, String lamborgini) {
         this.id = i;
