@@ -1,4 +1,5 @@
 Execution Instruction:
+
 Option 1] Run the jar file using the following command (JDK 1.8 is required)
 >java -jar VehicleApplication-0.0.1-SNAPSHOT.jar MitchellChallenge.VehicleApplication.VehicleApplication
 Then run the APIs mentioned in the postman application to see the outputs.
